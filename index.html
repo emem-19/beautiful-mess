@@ -188,8 +188,8 @@ footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border
     <div class="hero-sub">8-track EP · Chi Fiore exclusive · 2026</div>
   </div>
 <div class="hero-cta">
-  <button class="btn btn-primary" onclick="document.getElementById('tracks').scrollIntoView({behavior:'smooth'})">試聽 ▶</button>
-  <button class="btn btn-ghost" onclick="document.getElementById('prompts').scrollIntoView({behavior:'smooth'})">參與活動</button>
+  <button class="btn btn-primary" onclick="window.scrollTo({top:window.tracks.offsetTop,behavior:'smooth'})">試聽 ▶</button>
+  <button class="btn btn-ghost" onclick="window.scrollTo({top:window.prompts.offsetTop,behavior:'smooth'})">參與活動</button>
 </div>
 </section>
 
@@ -435,7 +435,7 @@ RIGHT SIDE: "ORIGINAL TICKET" small caps, "No.0000（自填號碼）" right alig
   <div class="footer-sub">Chi Fiore exclusive · 2026 · 許海花 × 許子奇</div>
 </footer>
 
-<div class="modal-overlay" id="lyricsModal" onclick="closeModalOutside(event)">
+<div class="modal-overlay" id="lyricsModal">
   <div class="modal-box">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle"></div>
@@ -605,6 +605,7 @@ function seekAudio(e, barEl) {
   const pct = Math.min(Math.max((e.clientX-rect.left)/rect.width,0),1);
   btn._audio.currentTime = pct * btn._audio.duration;
 }
+ document.getElementById('lyricsModal').addEventListener('click', function(e){ if(e.target===this) closeLyrics(); }); 
 </script>
 </body>
 </html>
