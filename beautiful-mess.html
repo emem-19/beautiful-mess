@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>beautiful mess EP — Chi Fiore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f5efe3;
+  --dark: #0e0a04;
+  --amber: #c8870a;
+  --neon-warm: #ffd97a;
+  --tomato: #b22020;
+  --text-muted: #8a7050;
+  --border: #2a1e0e;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--dark); color:var(--cream); font-family:'Libre Baskerville',serif; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:100; opacity:0.4; }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:50; padding:1.2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; background:linear-gradient(to bottom,rgba(14,10,4,0.95),transparent); }
+.nav-logo { font-family:'Dancing Script',cursive; font-size:1.4rem; color:var(--neon-warm); text-shadow:0 0 12px rgba(255,180,50,0.5); text-decoration:none; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.15em; text-transform:uppercase; transition:color 0.3s; }
+.nav-links a:hover { color:var(--neon-warm); }
+
+#hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; padding:6rem 2rem 4rem; text-align:center; max-width:100%; }
+.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 40%,rgba(180,100,10,0.12) 0%,transparent 70%); }
+.hero-cover { width:min(380px,85vw); aspect-ratio:1; background:#1a1008; border:1px solid #3a2a10; border-radius:3px; margin-bottom:2.5rem; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.cover-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem; color:#3a2a10; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; }
+.cover-nav { display:flex; gap:0.5rem; margin-top:1rem; }
+.cover-dot { width:6px; height:6px; border-radius:50%; background:var(--border); cursor:pointer; transition:background 0.3s; }
+.cover-dot.active { background:var(--amber); }
+.hero-title { font-family:'Dancing Script',cursive; font-size:clamp(3rem,10vw,5.5rem); color:var(--neon-warm); text-shadow:0 0 15px rgba(255,180,50,0.4),0 0 40px rgba(255,130,0,0.2); line-height:0.95; animation:neon-flicker 8s infinite; }
+@keyframes neon-flicker { 0%,92%,100%{opacity:1;text-shadow:0 0 15px rgba(255,180,50,0.4),0 0 40px rgba(255,130,0,0.2)}93%{opacity:0.6;text-shadow:0 0 5px rgba(255,180,50,0.2)}94%{opacity:1}97%{opacity:0.7}98%{opacity:1} }
+.hero-sub { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.3em; color:var(--text-muted); margin-top:0.8rem; text-transform:uppercase; }
+.hero-cta { margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+.btn { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; padding:0.7rem 1.8rem; border-radius:2px; cursor:pointer; text-decoration:none; transition:all 0.3s; display:inline-block; }
+.btn-primary { background:var(--amber); color:var(--dark); border:none; }
+.btn-primary:hover { background:var(--neon-warm); }
+.btn-ghost { background:transparent; color:var(--cream); border:1px solid #3a2a10; }
+.btn-ghost:hover { border-color:var(--amber); color:var(--amber); }
+
+section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
+.section-label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; letter-spacing:0.3em; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; }
+.section-title { font-family:'Dancing Script',cursive; font-size:2.2rem; color:var(--neon-warm); margin-bottom:2.5rem; }
+.divider { width:100%; height:1px; background:var(--border); }
+
+#about .concept-text { font-size:1rem; line-height:1.9; color:#c8b090; max-width:640px; }
+#about .concept-text p { margin-bottom:1.2rem; }
+#about .concept-text p:first-child { font-size:1.15rem; color:var(--cream); }
+
+/* TRACKS */
+.track-list { display:flex; flex-direction:column; }
+.track-item { padding:1.2rem 0; border-bottom:1px solid var(--border); }
+.track-main { display:grid; grid-template-columns:2rem 1fr auto; align-items:center; gap:1rem; cursor:pointer; transition:padding 0.2s; }
+.track-item:hover .track-main { padding-left:0.4rem; }
+.track-num { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--text-muted); }
+.track-name { font-size:1rem; color:var(--cream); transition:color 0.3s; }
+.track-item:hover .track-name { color:var(--neon-warm); }
+.track-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+.track-genre { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; white-space:nowrap; }
+.track-toggle { font-size:0.75rem; color:var(--border); transition:transform 0.3s,color 0.3s; }
+.track-item.open .track-toggle { transform:rotate(180deg); color:var(--amber); }
+
+.track-expand { max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+.track-item.open .track-expand { max-height:200px; }
+.track-story { font-size:0.82rem; color:var(--text-muted); line-height:1.7; font-style:italic; padding:0.8rem 0 0.5rem 3rem; }
+.lyrics-btn { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber); background:transparent; border:1px solid #3a2010; padding:0.3rem 0.8rem; border-radius:2px; cursor:pointer; margin-left:3rem; margin-bottom:0.5rem; transition:all 0.2s; }
+.lyrics-btn:hover { background:#1a1008; border-color:var(--amber); }
+.suno-link { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; color:var(--text-muted); text-decoration:none; margin-left:0.8rem; transition:color 0.2s; }
+.suno-link:hover { color:var(--neon-warm); }
+
+/* AUDIO PLAYER */
+.track-player { margin:0.5rem 0 0.8rem 3rem; }
+.player-inner { background:#060402; border:1px solid #1a1208; border-radius:2px; padding:0.7rem 1rem; display:flex; align-items:center; gap:0.8rem; }
+.play-btn { width:28px; height:28px; border-radius:50%; background:var(--amber); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background 0.2s; }
+.play-btn:hover { background:var(--neon-warm); }
+.play-btn svg { width:10px; height:10px; fill:var(--dark); margin-left:1px; }
+.play-btn.playing svg.icon-play { display:none; }
+.play-btn.playing svg.icon-pause { display:block !important; }
+.player-progress { flex:1; display:flex; flex-direction:column; gap:4px; }
+.progress-bar { width:100%; height:2px; background:#2a1e0e; border-radius:1px; cursor:pointer; position:relative; }
+.progress-fill { height:100%; background:var(--amber); border-radius:1px; width:0%; transition:width 0.1s linear; pointer-events:none; }
+.progress-bar:hover .progress-fill { background:var(--neon-warm); }
+.player-times { display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--text-muted); }
+
+/* LYRICS MODAL */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:200; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; padding:1rem; }
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal-box { background:#0e0a04; border:1px solid #3a2a10; border-radius:3px; width:100%; max-width:640px; max-height:85vh; overflow:hidden; display:flex; flex-direction:column; transform:translateY(20px); transition:transform 0.3s; }
+.modal-overlay.open .modal-box { transform:translateY(0); }
+.modal-header { padding:1.2rem 1.5rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
+.modal-title { font-family:'Dancing Script',cursive; font-size:1.4rem; color:var(--neon-warm); }
+.modal-close { background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0.2rem 0.5rem; transition:color 0.2s; font-family:'IBM Plex Mono',monospace; }
+.modal-close:hover { color:var(--cream); }
+.modal-body { padding:1.5rem; overflow-y:auto; flex:1; }
+.modal-body::-webkit-scrollbar { width:3px; }
+.modal-body::-webkit-scrollbar-track { background:transparent; }
+.modal-body::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+.lyrics-block { margin-bottom:1.5rem; }
+.lyrics-section-label { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.6rem; }
+.lyric-line { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:0.4rem; }
+.lyric-en { font-size:0.85rem; color:var(--cream); line-height:1.6; }
+.lyric-zh { font-size:0.82rem; color:var(--text-muted); line-height:1.6; font-style:italic; }
+@media(max-width:500px) { .lyric-line { grid-template-columns:1fr; gap:0.1rem; } .lyric-zh { margin-bottom:0.6rem; } }
+
+/* TOKUTEN */
+.tokuten-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+.tokuten-card { background:#0e0a04; padding:2rem 1.5rem; display:flex; flex-direction:column; gap:0.8rem; }
+.tokuten-img { width:100%; aspect-ratio:1; background:#1a1008; display:flex; align-items:center; justify-content:center; font-size:2.5rem; margin-bottom:0.5rem; overflow:hidden; }
+.tokuten-img img { width:100%; height:100%; object-fit:cover; }
+.tokuten-name { font-size:0.85rem; color:var(--cream); }
+.tokuten-desc { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--text-muted); line-height:1.6; }
+
+/* PROMPTS */
+.prompt-cards { display:flex; flex-direction:column; gap:2rem; }
+.prompt-card { background:#0e0a04; border:1px solid var(--border); border-radius:2px; padding:2rem; }
+.prompt-card-title { font-size:1rem; color:var(--cream); margin-bottom:0.3rem; }
+.prompt-card-desc { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--text-muted); line-height:1.6; margin-bottom:1rem; }
+.prompt-example { width:100%; aspect-ratio:16/9; background:#1a1008; border:1px dashed var(--border); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:#3a2a10; margin-bottom:1.2rem; overflow:hidden; }
+.prompt-example img { width:100%; height:100%; object-fit:cover; }
+.prompt-text-box { background:#060402; border:1px solid #1a1208; border-radius:2px; padding:1.2rem 1.2rem 1.2rem 1.2rem; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:#8a7a5a; line-height:1.8; white-space:pre-wrap; word-break:break-word; position:relative; padding-right:5rem; }
+.copy-btn { position:absolute; top:0.8rem; right:0.8rem; font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); background:#1a1208; border:1px solid var(--border); border-radius:2px; padding:0.3rem 0.6rem; cursor:pointer; transition:all 0.2s; }
+.copy-btn:hover { color:var(--amber); border-color:var(--amber); }
+.copy-btn.copied { color:#4a8a4a; border-color:#2a5a2a; }
+
+/* VENUE */
+.venue-inner { background:var(--tomato); padding:4rem 3rem; position:relative; overflow:hidden; }
+.venue-inner::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(0,0,0,0.04) 20px,rgba(0,0,0,0.04) 21px); }
+.venue-content { position:relative; z-index:1; }
+.venue-title { font-family:'Dancing Script',cursive; font-size:2.8rem; color:#fff8e8; margin-bottom:1rem; line-height:1; }
+.venue-desc { font-size:0.95rem; color:rgba(255,248,232,0.8); line-height:1.9; max-width:520px; margin-bottom:2rem; }
+.venue-desc strong { color:#fff8e8; }
+.venue-details { display:flex; flex-wrap:wrap; gap:2rem; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.1em; color:rgba(255,248,232,0.6); }
+.venue-details span { color:#fff8e8; }
+.polaroid-corner { position:absolute; bottom:2rem; right:2.5rem; width:80px; background:#fff8e8; padding:6px 6px 20px; transform:rotate(3deg); box-shadow:-3px 3px 12px rgba(0,0,0,0.3); }
+.polaroid-photo { width:100%; aspect-ratio:1; background:#c8a070; display:flex; align-items:center; justify-content:center; font-size:0.5rem; color:#8a6040; font-family:'IBM Plex Mono',monospace; overflow:hidden; }
+.polaroid-photo img { width:100%; height:100%; object-fit:cover; }
+
+footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border); }
+.footer-logo { font-family:'Dancing Script',cursive; font-size:2rem; color:var(--text-muted); margin-bottom:0.5rem; }
+.footer-sub { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:#3a2a10; letter-spacing:0.2em; text-transform:uppercase; }
+
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease,transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@media(max-width:600px) {
+  nav { padding:1rem 1.2rem; }
+  .nav-links { gap:1rem; }
+  .nav-links li:nth-child(n+4) { display:none; }
+  section { padding:3.5rem 1.2rem; }
+  .venue-inner { padding:2.5rem 1.5rem; }
+  .polaroid-corner { display:none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">bm</a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#tracks">tracks</a></li>
+    <li><a href="#tokuten">特典</a></li>
+    <li><a href="#prompts">prompts</a></li>
+    <li><a href="#venue">venue</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-cover" id="coverSlider">
+    <div class="cover-placeholder">
+      <span style="font-size:1.8rem;opacity:0.3;">◻</span>
+      <span>封面 Ver.C</span>
+      <span style="opacity:0.5;">替換為真實封面圖片</span>
+    </div>
+  </div>
+  <div class="cover-nav">
+    <div class="cover-dot active" onclick="switchCover(0)"></div>
+    <div class="cover-dot" onclick="switchCover(1)"></div>
+    <div class="cover-dot" onclick="switchCover(2)"></div>
+  </div>
+  <div style="margin-top:2rem;">
+    <div class="hero-title">beautiful mess</div>
+    <div class="hero-sub">8-track EP · Chi Fiore exclusive · 2026</div>
+  </div>
+  <div class="hero-cta">
+    <a href="https://suno.com" target="_blank" class="btn btn-primary">試聽 ▶</a>
+    <a href="#venue" class="btn btn-ghost">如何取得</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">創作概念</div>
+    <div class="section-title">關於這張EP</div>
+  </div>
+  <div class="concept-text reveal">
+    <p>這張EP從一段公路旅行開始。</p>
+    <p>從尼斯開回波隆那的路上，我們決定把一直以來哼哼唱唱的東西做成真正的歌。沒有計畫，只有兩個人長期互傳的歌單，還有對某些聲音的共同執念。</p>
+    <p>先有了 The Pizza Show，接著有了 The Fig Song。後來一首一首長出來，每一首都是某個我們記得的瞬間。</p>
+    <p style="font-style:italic;color:#8a7050;font-size:0.85rem;">許海花 × 許子奇 · 2026</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="tracks">
+  <div class="reveal">
+    <div class="section-label">曲目</div>
+    <div class="section-title">8 tracks</div>
+  </div>
+  <div class="track-list reveal">
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">01</span>
+        <div class="track-name">The Pizza Show</div>
+        <div class="track-right"><span class="track-genre">pop-punk</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">開場曲。關於把一切搞砸卻還是很好的那種狀態。能量直接，不需要解釋。</div>
+        <div class="track-player">
+          <div class="player-inner">
+            <button class="play-btn" onclick="togglePlay(this,'01.mp3')">
+              <svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
+              <svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg>
+            </button>
+            <div class="player-progress">
+              <div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div>
+              <div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div>
+            </div>
+          </div>
+        </div>
+        <button class="lyrics-btn" onclick="openLyrics(0)">歌詞 lyrics</button>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">02</span>
+        <div class="track-name">Bologna Traffic Lights</div>
+        <div class="track-right"><span class="track-genre">indie rock</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">兩個人在城市裡吵架的歌。節奏推著走，停不下來。最安靜的部分在Bridge——只有一句話，但說清楚了所有事情。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'02.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(1)">歌詞 lyrics</button>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">03</span>
+        <div class="track-name">My Delight – Mint Chocolate in Nice</div>
+        <div class="track-right"><span class="track-genre">britpop</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">在尼斯有一個關於薄荷綠飛雅特和巧克力碎片貼紙的討論，認真程度遠超過它應該有的認真程度。副歌的和聲「yeah」是後來加的，加了之後整首歌突然涼了起來。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'03.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(2)">歌詞 lyrics</button>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">04</span>
+        <div class="track-name">The Fight We Always Win</div>
+        <div class="track-right"><span class="track-genre">post-punk</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">顧名思義。有兩個版本，因為兩種都是真的。差異在音色和混音方式——一個更重，一個更空。吵完之後世界很安靜，但沒有人離開。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'04.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(3)">歌詞 lyrics</button>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">05</span>
+        <div class="track-name">Hyde Park Escape</div>
+        <div class="track-right"><span class="track-genre">dream indie</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">倫敦那趟旅行的命名是「倫敦大逃亡」。住在海德公園旁邊，想躲一下現實。這首歌是EP裡最慢的，也是空間感最強的。適合不想說話的夜晚。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'05.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(4)">歌詞 lyrics</button>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">06</span>
+        <div class="track-name">The Fig Song</div>
+        <div class="track-right"><span class="track-genre">musical theater</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">整首歌跟無花果其實沒有什麼關係。只是我們在帕瑪買了火腿，打算回家配無花果。因為想要一首像我們一樣吵吵鬧鬧的歌，所以有了這首。歌詞裡藏了我們聊天特有的梗，還有我最喜歡的許氏幽默。MV風格是偶動畫，因為我喜歡。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'06.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(5)">歌詞 lyrics</button>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">07</span>
+        <div class="track-name">Lemonade Satellite <span style="font-size:0.7rem;color:#5a4530;">deluxe</span></div>
+        <div class="track-right"><span class="track-genre">dream pop</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">為了要有一首充滿太空感的歌而存在。甜的東西開始變酸，距離開始失重。Deluxe收錄。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'07.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(6)">歌詞 lyrics</button>
+        <a href="https://suno.com/song/03d12b93-0510-4855-b216-e176d6466a54" target="_blank" class="suno-link">↗ suno</a>
+      </div>
+    </div>
+
+    <div class="track-item">
+      <div class="track-main" onclick="toggleTrack(this.parentElement)">
+        <span class="track-num">08</span>
+        <div class="track-name">The Fight We Always Win <span style="font-size:0.7rem;color:#5a4530;">aftermath ver.</span></div>
+        <div class="track-right"><span class="track-genre">alt ballad</span><span class="track-toggle">↓</span></div>
+      </div>
+      <div class="track-expand">
+        <div class="track-story">同一首歌的另一個狀態。兩個聲音交疊，情緒收斂，空間放大。不是和好，是確認。</div>
+        <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'08.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
+        <button class="lyrics-btn" onclick="openLyrics(7)">歌詞 lyrics</button>
+        <a href="https://suno.com/song/46e25d66-7167-43ef-b4f4-8f067dd7333d" target="_blank" class="suno-link">↗ suno</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="tokuten">
+  <div class="reveal">
+    <div class="section-label">初回限定</div>
+    <div class="section-title">特典</div>
+  </div>
+  <div class="tokuten-grid reveal">
+    <div class="tokuten-card">
+      <div class="tokuten-img">🍕</div>
+      <div class="tokuten-name">杯墊 4款</div>
+      <div class="tokuten-desc">90mm 圓形<br>披薩 / 無花果 / 番茄 / 黑膠</div>
+    </div>
+    <div class="tokuten-card">
+      <div class="tokuten-img">🃏</div>
+      <div class="tokuten-name">小卡</div>
+      <div class="tokuten-desc">55 × 91mm<br>雙面印刷</div>
+    </div>
+    <div class="tokuten-card">
+      <div class="tokuten-img">✂</div>
+      <div class="tokuten-name">貼紙 5張</div>
+      <div class="tokuten-desc">場景 / 角色 / 物件<br>各式形狀 die-cut</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="prompts">
+  <div class="reveal">
+    <div class="section-label">參與宣傳</div>
+    <div class="section-title">生成你們的版本</div>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:2.5rem;line-height:1.8;">把這三組 prompt 貼進 ChatGPT，替換人物設定，生成屬於你們的《beautiful mess》。</p>
+  </div>
+  <div class="prompt-cards reveal">
+
+    <div class="prompt-card">
+      <div class="prompt-card-title">📷 披薩店底片格狀照</div>
+      <div class="prompt-card-desc">那種永遠不會po但捨不得刪的義大利夜晚</div>
+      <div class="prompt-example">替換為生成結果範例圖</div>
+      <div class="prompt-text-box" id="prompt1">9 grid film photos, Italian pizzeria with brick walls and warm neon signs, dimly lit, candid couple moments — laughing, stealing food, blurry kiss near neon sign, overexposed flash, motion blur, grain, warm amber film tones.
+Replace characters with: [描述你們的外貌]<button class="copy-btn" onclick="copyPrompt('prompt1',this)">copy</button></div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-title">🎸 Live House 現場格狀照</div>
+      <div class="prompt-card-desc">indie rock 演出中，只有你們兩個是清楚的</div>
+      <div class="prompt-example">替換為生成結果範例圖</div>
+      <div class="prompt-text-box" id="prompt2">9 grid candid couple photos at an indie rock live house concert — shot on 35mm film, slightly grainy. Neon stage lights casting red and blue on their faces. Crowd blurred behind them. One photo: she's on her tiptoes whispering in his ear. One photo: forehead touch, eyes closed, mid-song. Warm and chaotic, intimate but public.
+Replace characters with: [描述你們的外貌]
+Clothes: [自由替換]<button class="copy-btn" onclick="copyPrompt('prompt2',this)">copy</button></div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-title">🎫 客製化入場票根</div>
+      <div class="prompt-card-desc">pizza-only release show · 填上你們的名字</div>
+      <div class="prompt-example">替換為票根生成範例圖</div>
+      <div class="prompt-text-box" id="prompt3">Design a vertical concert ticket, two-sided, warm cream and off-white color palette, torn edge perforations on sides.
+
+LEFT SIDE: Black and white portrait photo of [PERSON or COUPLE] taking up full left panel, slight vignette edge, cursive gold text overlay: "beautiful mess", bottom corner small text: "pizza-only release", small illustrations at bottom: vinyl record, pizza slice, pineapple
+
+RIGHT SIDE: "ORIGINAL TICKET" small caps, "No.0001" right aligned. Title: "beautiful mess EP" in cursive script font. Fields in typewriter font — Release: 2026/05/05 / Venue: Chi Fiore / Cast: [NAME] & [NAME] / Review: [one short poetic line about this relationship, max 6 words, lowercase, no punctuation] / ♥♥♥♥♥ rating row / Barcode at bottom / "THANK YOU FOR LISTENING" small caps. Warm cream background right panel, thin border lines, aged paper texture.<button class="copy-btn" onclick="copyPrompt('prompt3',this)">copy</button></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="venue" style="padding-bottom:0;">
+  <div class="reveal"><div class="section-label">發行資訊</div></div>
+</section>
+<div style="max-width:960px;margin:0 auto;padding:0 2rem 5rem;" class="reveal">
+  <div class="venue-inner">
+    <div class="venue-content">
+      <div class="venue-title">Chi Fiore</div>
+      <div class="venue-desc">
+        一間讓義大利人想要報警的異端披薩店。<br><br>
+        每個晚上 <strong>21:00 – 23:00</strong> Happy Hour，<br>
+        《beautiful mess》無限循環。<br><br>
+        點購 <strong>「老闆與老闆娘套餐」</strong>，附贈 EP 下載碼。<br><br>
+        就這樣。
+      </div>
+      <div class="venue-details">
+        <div>時間 <span>21:00 – 23:00 daily</span></div>
+        <div>地點 <span>Chi Fiore</span></div>
+        <div>取得方式 <span>老闆與老闆娘套餐</span></div>
+      </div>
+    </div>
+    <div class="polaroid-corner">
+      <div class="polaroid-photo">拍立得<br>照片</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">beautiful mess</div>
+  <div class="footer-sub">Chi Fiore exclusive · 2026 · 許海花 × 許子奇</div>
+</footer>
+
+<!-- LYRICS MODAL -->
+<div class="modal-overlay" id="lyricsModal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" onclick="closeLyrics()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const LYRICS = [
+  {
+    title: "The Pizza Show",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["You're the biggest pain I know, my silly little troublemaker","你是我認識最麻煩的人，我那個蠢蠢的小搗蛋鬼"],
+        ["Singing off-key City Pop and asking for a favor","一邊唱著走音的 City Pop，一邊還敢拜託我幫忙"],
+        ["From Bologna's graffiti walls to the coast of Nice","從波隆那的塗鴉牆，到尼斯的海岸"],
+        ["You put pineapples on my pizza, God, you're so imprecise!","你居然把鳳梨放在我的披薩上，天啊你真的亂來到不行"],
+      ]},
+      { label: "Pre-Chorus", lines: [
+        ["You say my words are sharp and mean, like Gordon Ramsay on a bad day","你說我講話很毒，像心情不好的廚師在開罵"],
+        ["But then you crawl into my arms and tell me you're here to stay","但下一秒你又鑽進我懷裡，說你不會走"],
+        ["What a beautiful contradiction, a puzzle I can't solve","多漂亮的矛盾啊，一個我解不開的謎"],
+        ["But honestly, with every fight, my stupid heart evolves.","但老實說，每吵一次架，我這顆笨心就更離不開你"],
+      ]},
+      { label: "Chorus", lines: [
+        ["We'll make a pizza, and we'll mess it up","我們會一起做披薩，然後把它搞砸"],
+        ["Then kiss while the smoke alarms howl","在煙霧警報亂叫的時候接吻"],
+        ["'Cause everything gets better with you","因為有你在，一切都會變好"],
+        ["Even forever sounds fun now!","連「永遠」聽起來都變得很好玩"],
+        ["Oh, this is our beautiful mess, a perfectly flawed design","這就是我們的完美混亂，一種剛剛好的不完美"],
+        ["You're the annoying, lovely, stupid, brilliant girl, and you're all mine!","你煩、你可愛、你笨又聰明，而你是我的"],
+      ]},
+      { label: "Bridge", lines: [
+        ["From a song about a clam, to a promise on a highway","從一首關於蛤蜊的怪歌，到公路上的承諾"],
+        ["Every stupid little moment led me to you, come what may","每一個蠢蠢的小瞬間，最後都把我帶到你身邊"],
+        ["You're my beautiful mistake, my serenade in the park","你是我美麗的錯誤，是我在公園裡的情歌"],
+        ["The only one who sees the light when my whole world goes dark.","當我的世界一片黑時，唯一看見光的人是你"],
+      ]},
+      { label: "Outro", lines: [
+        ["Forever sounds fun now...","現在，「永遠」聽起來也很好玩了"],
+        ["With you...","因為是和你一起"],
+      ]},
+    ]
+  },
+  {
+    title: "Bologna Traffic Lights",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["Stuck at the corner of Via dell'Indipendenza","卡在獨立大道的街角"],
+        ["The rain is pouring down, a classic Italian suspense-a","雨下得超大，根本義大利式懸疑片現場"],
+        ["That red light's staring like a judge in a robe","那個紅燈盯著我們，像穿長袍的法官"],
+        ["While we're huddled under an umbrella, ready to explode","我們擠在一把傘下，情緒隨時要爆"],
+        ["You're complaining 'bout your wet shoes, I'm cursing the Fiat","你在抱怨鞋子全濕了，我在罵那台破Fiat"],
+        ["The city's screaming loud, but between us, it's a riot","整座城市吵得要命，但我們之間更亂"],
+      ]},
+      { label: "Chorus", lines: [
+        ["Oh! Bologna traffic lights, they never turn for us","波隆那的紅綠燈，好像從來不為我們轉"],
+        ["Caught in the middle of the chaos and the dust","卡在混亂和塵土之中"],
+        ["Red for the secrets, yellow for the lies","紅燈代表祕密，黃燈代表謊言"],
+        ["Green for the moment I see home in your eyes","綠燈是我在你眼裡看見「回家」的那一刻"],
+        ["We're running the lights, we're breaking the rules","我們闖燈，我們破規矩"],
+        ["Two lovers in Bologna, just a pair of beautiful fools!","兩個在波隆那的戀人，一對漂亮的傻子"],
+      ]},
+      { label: "Bridge", lines: [
+        ["Wait... just wait for a second","等一下……先等一下"],
+        ["In the glow of the brake lights, your lips look so red","在煞車燈的紅光下，你的唇看起來特別紅"],
+        ["Forget everything that I ever said...","我剛剛說的話，全都算了"],
+        ["I love you in the traffic, I love you in the rain.","我在車陣裡愛你，在雨裡也愛你"],
+      ]},
+      { label: "Outro", lines: [
+        ["Yeah, another red light...","又一個紅燈啊……"],
+        ["Whatever, I've got you tonight.","算了，反正今晚有你"],
+        ["Gia, un altro semaforo rosso... che palle!","（又一個紅燈……煩死了）"],
+      ]},
+    ]
+  },
+  {
+    title: "My Delight – Mint Chocolate in Nice",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["Woke up at noon, the sun's a crime","中午才醒來，陽光亮得像在犯罪"],
+        ["Head's pounding out a broken rhyme","頭痛到像腦袋在亂寫一段破歌詞"],
+        ["You're humming tunes, a bit off-key","你哼著歌，有點走音"],
+        ["Stealing the last of my black coffee","順手把我最後一口黑咖啡偷走"],
+      ]},
+      { label: "Chorus", lines: [
+        ["(female) Yeah~~ like mint chocolate in Nice","就像尼斯的薄荷巧克力"],
+        ["(male) You're a beautiful mistake, a roll of the dice","你是個美麗的錯誤，就像一場賭注"],
+        ["(female) Yeah~~ you're melting in the heat","在熱氣裡慢慢融化"],
+        ["And this messed-up melody feels so bittersweet","而這首亂七八糟的旋律卻甜得剛剛好"],
+      ]},
+      { label: "Bridge", lines: [
+        ["Are we running from something?","我們是在逃離什麼嗎？"],
+        ["Or just running wild?","還是只是單純地亂跑？"],
+        ["Under this Côte d'Azur sun…","在這片蔚藍海岸的陽光底下……"],
+        ["just for a little while","只要再一下下"],
+      ]},
+      { label: "Outro", lines: [
+        ["(female whisper) Yeah~~",""],
+      ]},
+    ]
+  },
+  {
+    title: "The Fight We Always Win",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["You said my pizza's a crime against the nation","你說，我的披薩是國家級災難"],
+        ["I said your tears are the cheapest form of hydration","我回，你的眼淚是最省錢的補水方式"],
+        ["You slam the door, a symphony of pure frustration","你甩上門，那聲音像一整首挫敗的交響樂"],
+        ["I punch the wall, a classic lover's damnation","我一拳砸牆，標準情侶的自毀橋段"],
+        ["You scream my name like it's a curse, a final prayer","你喊著我的名字，像詛咒，也像最後祈禱"],
+        ["I see your ghost in every goddamn empty chair","每一張該死的空椅子上，都有你的影子"],
+      ]},
+      { label: "Chorus", lines: [
+        ["And oh, we're a beautiful disaster, aren't we, love?","喔，我們就是那種漂亮到不行的災難，對吧，親愛的"],
+        ["A perfect storm sent from hell, or maybe from above","一場剛剛好的風暴，像從地獄來，也可能是從天堂掉下來的"],
+        ["We build our kingdom just to burn it to the ground","我們拼命築起王國，再親手把它燒到剩灰"],
+        ["But in the ashes, your heartbeat's the only sound","可是在灰燼裡，只剩你的心跳還在"],
+        ["Yeah, in the silence, you're the only one I've found.","是啊，在所有安靜下來的時候，我也只找得到你"],
+      ]},
+      { label: "Outro", lines: [
+        ["...And then the quiet comes.","……然後，安靜真的來了"],
+        ["It's louder than the bombs.","比剛剛那些爆炸還要吵"],
+        ["You're standing by the window, tracing patterns on the glass.","你站在窗邊，在玻璃上無意識地畫著什麼"],
+        ["And I'm thinking, \"God, how long can this night last?\"","我心裡只是在想——天啊，這一晚到底還要拖多久"],
+      ]},
+    ]
+  },
+  {
+    title: "Hyde Park Escape",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["The grass was damp, the sky was London grey","草地帶著濕氣，天空是倫敦那種灰"],
+        ["We found a bench where all the ghosts go to play","我們找到一張長椅，像是所有幽靈都會來停留的地方"],
+        ["I watched your breath turn into mist in the air","我看著你的呼吸在空氣裡化成白霧"],
+        ["A silent vow, a secret we didn't have to share","一個無聲的約定，一個不需要說出口的祕密"],
+        ["You didn't pull away... like you usually do","你沒有像平常那樣退開……"],
+        ["And for a second, the world felt brand new.","有那麼一瞬間，整個世界都變得嶄新"],
+      ]},
+      { label: "Chorus", lines: [
+        ["Where nothing else really mattered, except staying like this","在那裡，除了維持現在這樣，其他一切都不再重要"],
+        ["Lost in the echo of a Hyde Park kiss","迷失在海德公園那個吻的回聲裡"],
+        ["Escape the noise, escape the neon light","逃離喧囂，也逃離霓虹"],
+        ["We're just two satellites drifting through the night","我們只是兩顆在夜裡漂流的衛星"],
+        ["Nothing else mattered, just staying like this.","什麼都不重要了，只要這樣停留著"],
+      ]},
+      { label: "Bridge", lines: [
+        ["Are we still in London? Or are we on the moon?","我們還在倫敦嗎？還是已經在月球上了？"],
+        ["Don't wake me up, don't let the morning in","不要把我叫醒，也不要讓清晨闖進來"],
+        ["This is where the end and the beginning spin.","這裡是結束與開始交錯旋轉的地方"],
+      ]},
+      { label: "Outro", lines: [
+        ["Staying like this...","就這樣停著……"],
+        ["(Just like this.)","（就這樣。）"],
+      ]},
+    ]
+  },
+  {
+    title: "The Fig Song",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["Woke up in Nice with the sun in my eyes","在尼斯醒來，陽光灑進眼裡"],
+        ["You were stealing the blankets, no big surprise","妳又搶走被子——一點也不意外"],
+        ["We drove through the mountains, we sang to the wind","我們開車穿過山路，對著風唱歌"],
+        ["A brand new adventure about to begin","一場全新的冒險正要開始"],
+        ["From the salt of the ocean to the bricks of this town","從海的鹹味到城市的紅磚"],
+        ["Nothing can ever bring this feeling down!","沒有什麼能把這種感覺拉下來"],
+      ]},
+      { label: "Pre-Chorus", lines: [
+        ["(Female: Step to the left!)","（左邊一步！）"],
+        ["(Male: I'm losing my breath!)","（我快喘不過氣了！）"],
+        ["(Together: Spinning around in this Italian mess!)","（在這混亂的義大利裡旋轉！）"],
+        ["One, two, three, let the rhythm take hold","一、二、三，讓節奏帶走一切"],
+        ["This story of ours is better than gold!","我們的故事，比黃金還要珍貴"],
+      ]},
+      { label: "Chorus", lines: [
+        ["Oh! The Fig Song under the Bologna sun","喔！在波隆那陽光下唱著無花果之歌"],
+        ["We're just getting started, the fun's just begun!","我們才剛開始，好戲才要上場"],
+        ["Like Sharpay and Troy on a balcony stage","像 Sharpay 和 Troy 在陽台舞台上"],
+        ["We're writing the best part of every page","我們正在寫下每一頁最好的部分"],
+        ["Sweet like the fruit, wild like the sea","甜得像果實，瘋得像海"],
+        ["You're the High School Musical ending for me!","妳就是我專屬的 High School Musical 結局"],
+        ["(Jump! Turn! Kiss me under the tree!)","（跳！轉！在樹下親我！）"],
+      ]},
+      { label: "Bridge", lines: [
+        ["If I lose my memory, if I lose my way…","如果我失去記憶，如果我迷了路"],
+        ["I'll sing this melody to bring back the day","我會唱這首旋律，把那一天找回來"],
+        ["WE'RE ALL IN THIS TOGETHER! (Wait, wrong movie!)","我們都在一起！（等等，不是這部電影）"],
+        ["WE'RE ALL IN THIS LOVE FOREVER!","我們會一直在這段愛裡！"],
+      ]},
+      { label: "Outro", lines: [
+        ["Did I just do jazz hands?","我剛剛是不是做了爵士手勢？"],
+        ["You totally did.","你是。"],
+        ["Don't tell anyone. I have a reputation to keep.","不要說出去，我還要維持形象。"],
+        ["The End!",""],
+      ]},
+    ]
+  },
+  {
+    title: "Lemonade Satellite",
+    sections: [
+      { label: "Verse", lines: [
+        ["Your kiss is like an expired soda can","你的吻像一罐過期的汽水"],
+        ["Stinging my throat, messing up my plan","刺得我喉嚨發疼，也打亂了我的節奏"],
+        ["We're sitting on the edge of a rusty moon","我們坐在一顆生鏽的月亮邊緣"],
+        ["Humming a melody that's slightly out of tune","哼著一段有點走音的旋律"],
+        ["It's sour, it's sharp, it's the way you say my name","那種酸，那種刺，是你叫我名字的方式"],
+        ["A beautiful disaster, a sugar-coated game.","一場美麗的災難，一場裹著糖衣的遊戲"],
+      ]},
+      { label: "Chorus", lines: [
+        ["We are the sirens in the quiet street","我們是安靜街道裡的警報聲"],
+        ["Screaming love through the sour heat!","在那帶著酸味的熱氣裡大聲喊著愛"],
+        ["A Lemonade Satellite, spinning out of sight","一顆檸檬汽水做的衛星，旋轉到看不見"],
+        ["Tasting the bitter, holding on so tight","嚐著那點苦，卻還是緊緊抓住不放"],
+        ["Yeah, it's sweet, but it stings like the light!","是甜的沒錯，但刺得像光一樣"],
+      ]},
+      { label: "Bridge", lines: [
+        ["Is it the sugar? Or is it the pain?","這是糖的甜，還是痛的味道？"],
+        ["Running through my heart like electric rain","像電流般的雨，穿過我的心"],
+        ["Give me the sour, give me the sweet","給我那份酸，也給我那點甜"],
+        ["Just don't leave me here on this empty street.","只是別把我一個人留在這條空街上"],
+      ]},
+      { label: "Outro", lines: [
+        ["\"It's a bit sour, isn't it?\"","有點酸，對吧？"],
+      ]},
+    ]
+  },
+  {
+    title: "The Fight We Always Win (Aftermath Version)",
+    sections: [
+      { label: "Verse 1", lines: [
+        ["You said my pizza's a crime against the nation","你說，我的披薩是國家級災難"],
+        ["I said your tears are the cheapest form of hydration","我回，你的眼淚是最省錢的補水方式"],
+        ["You slam the door, a symphony of pure frustration","你甩上門，那聲音像一整首挫敗的交響樂"],
+        ["I punch the wall, a classic lover's damnation","我一拳砸牆，標準情侶的自毀橋段"],
+      ]},
+      { label: "Chorus", lines: [
+        ["And oh, we're a beautiful disaster, aren't we, love?","喔，我們就是那種漂亮到不行的災難，對吧，親愛的"],
+        ["A perfect storm sent from hell, or maybe from above","一場剛剛好的風暴，像從地獄來，也可能是從天堂掉下來的"],
+        ["We build our kingdom just to burn it to the ground","我們拼命築起王國，再親手把它燒到剩灰"],
+        ["But in the ashes, your heartbeat's the only sound","可是在灰燼裡，只剩你的心跳還在"],
+        ["Yeah, in the silence, you're the only one I've found.","是啊，在所有安靜下來的時候，我也只找得到你"],
+      ]},
+      { label: "Verse 2", lines: [
+        ["I hide your keys, you steal my favorite band t-shirt","我把你的鑰匙藏起來，你就偷走我最愛的那件樂團T"],
+        ["You say I'm childish, I say at least I'm not a flirt","你說我幼稚，我說至少我沒到處亂撩"],
+        ["Who was that guy who liked your post? God, that's absurd.","那個幫你按讚的傢伙是誰？天啊，荒謬到不行"],
+        ["Is a grenade we toss across the living room","全都是我們往客廳彼此丟過去的手榴彈"],
+        ["Sealing our beautiful, terrible, fucking doom.","一顆一顆，把這段又美又爛的關係徹底封死"],
+      ]},
+      { label: "Outro", lines: [
+        ["...And then the quiet comes.","……然後，安靜真的來了"],
+        ["It's louder than the bombs.","比剛剛那些爆炸還要吵"],
+        ["You're standing by the window, tracing patterns on the glass.","你站在窗邊，在玻璃上無意識地畫著什麼"],
+        ["And I'm thinking, \"God, how long can this night last?\"","我心裡只是在想——天啊，這一晚到底還要拖多久"],
+      ]},
+    ]
+  },
+];
+
+function toggleTrack(el) { el.classList.toggle('open'); }
+
+function openLyrics(idx) {
+  const song = LYRICS[idx];
+  document.getElementById('modalTitle').textContent = song.title;
+  let html = '';
+  song.sections.forEach(sec => {
+    html += `<div class="lyrics-block"><div class="lyrics-section-label">${sec.label}</div>`;
+    sec.lines.forEach(([en, zh]) => {
+      html += `<div class="lyric-line"><span class="lyric-en">${en}</span><span class="lyric-zh">${zh}</span></div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('lyricsModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLyrics() {
+  document.getElementById('lyricsModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('lyricsModal')) closeLyrics();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLyrics(); });
+
+const covers = ['封面 Ver.C · 棚拍主視覺','封面 Ver.B · 歌舞音樂風','封面 Ver.A · 純LOGO'];
+let currentCover = 0;
+function switchCover(idx) {
+  currentCover = idx;
+  document.querySelectorAll('.cover-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+  document.getElementById('coverSlider').innerHTML = `<div class="cover-placeholder"><span style="font-size:1.8rem;opacity:0.3;">◻</span><span>${covers[idx]}</span><span style="opacity:0.5;">替換為真實封面圖片</span></div>`;
+}
+setInterval(() => switchCover((currentCover+1)%3), 4000);
+
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).innerText.replace('copy','').replace('copied ✓','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// AUDIO PLAYER
+let currentAudio = null;
+let currentBtn = null;
+
+function fmt(s) {
+  if(isNaN(s)) return '0:00';
+  const m = Math.floor(s/60);
+  const sec = Math.floor(s%60);
+  return m+':'+(sec<10?'0':'')+sec;
+}
+
+function togglePlay(btn, src) {
+  const player = btn.closest('.player-inner');
+  const bar = player.querySelector('.progress-fill');
+  const timeCurrent = player.querySelector('.time-current');
+  const timeTotal = player.querySelector('.time-total');
+  if(currentAudio && currentBtn && currentBtn !== btn) {
+    currentAudio.pause();
+    currentBtn.classList.remove('playing');
+  }
+  if(!btn._audio) {
+    btn._audio = new Audio(src);
+    btn._audio.addEventListener('timeupdate', () => {
+      const pct = btn._audio.duration ? (btn._audio.currentTime/btn._audio.duration)*100 : 0;
+      bar.style.width = pct+'%';
+      timeCurrent.textContent = fmt(btn._audio.currentTime);
+    });
+    btn._audio.addEventListener('loadedmetadata', () => {
+      timeTotal.textContent = fmt(btn._audio.duration);
+    });
+    btn._audio.addEventListener('ended', () => {
+      btn.classList.remove('playing');
+      bar.style.width = '0%';
+      timeCurrent.textContent = '0:00';
+    });
+  }
+  if(btn._audio.paused) {
+    btn._audio.play();
+    btn.classList.add('playing');
+    currentAudio = btn._audio;
+    currentBtn = btn;
+  } else {
+    btn._audio.pause();
+    btn.classList.remove('playing');
+  }
+}
+
+function seekAudio(e, barEl) {
+  const btn = barEl.closest('.player-inner').querySelector('.play-btn');
+  if(!btn._audio || !btn._audio.duration) return;
+  const rect = barEl.getBoundingClientRect();
+  const pct = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+  btn._audio.currentTime = pct * btn._audio.duration;
+}
+</script>
+</body>
+</html>
