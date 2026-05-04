@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>票根收藏 — beautiful mess</title>
+<link rel="icon" type="image/png" href="images/pizza40.png">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0e0a04;
+  --amber: #c8870a;
+  --neon-warm: #ffd97a;
+  --text-muted: #8a7050;
+  --border: #2a1e0e;
+  --cream: #f5efe3;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--dark); color:var(--cream); font-family:'IBM Plex Mono',monospace; overflow-x:hidden; min-height:100vh; }
+
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:1; opacity:0.4; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:50; padding:1.2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; background:linear-gradient(to bottom,rgba(14,10,4,0.95),transparent); }
+.nav-logo { font-family:'Dancing Script',cursive; font-size:1.4rem; color:var(--neon-warm); text-shadow:0 0 12px rgba(255,180,50,0.5); text-decoration:none; }
+.nav-back { font-size:0.65rem; color:var(--text-muted); text-decoration:none; letter-spacing:0.15em; text-transform:uppercase; transition:color 0.3s; }
+.nav-back:hover { color:var(--neon-warm); }
+
+/* HEADER */
+.page-header { padding:8rem 2rem 3rem; text-align:center; position:relative; z-index:2; }
+.page-label { font-size:0.65rem; letter-spacing:0.3em; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; }
+.page-title { font-family:'Dancing Script',cursive; font-size:2.5rem; color:var(--neon-warm); text-shadow:0 0 15px rgba(255,180,50,0.3); margin-bottom:0.8rem; }
+.page-count { font-size:0.65rem; color:var(--text-muted); letter-spacing:0.2em; }
+
+/* SCROLL GALLERY */
+.gallery-wrap { position:relative; z-index:2; padding:2rem 0 6rem; }
+
+.gallery-track {
+  display:flex;
+  gap:1.5rem;
+  padding:2rem 4rem;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  cursor:grab;
+}
+
+.gallery-track:active { cursor:grabbing; }
+
+.gallery-track::-webkit-scrollbar { height:3px; }
+.gallery-track::-webkit-scrollbar-track { background:var(--border); }
+.gallery-track::-webkit-scrollbar-thumb { background:var(--amber); border-radius:2px; }
+
+/* TICKET CARD */
+.ticket-card {
+  flex-shrink:0;
+  width:200px;
+  aspect-ratio:2/3;
+  scroll-snap-align:center;
+  position:relative;
+  border-radius:4px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  transform:rotate(var(--tilt));
+}
+
+.ticket-card:hover {
+  transform:rotate(0deg) translateY(-8px) scale(1.04);
+  box-shadow:0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(200,135,10,0.2);
+  z-index:10;
+}
+
+.ticket-card img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.ticket-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+
+.ticket-card:hover .ticket-overlay { opacity:1; }
+
+/* LIGHTBOX */
+.lightbox {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.95);
+  z-index:300;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s;
+  padding:2rem;
+}
+
+.lightbox.open {
+  opacity:1;
+  pointer-events:all;
+}
+
+.lightbox img {
+  max-width:min(360px,85vw);
+  max-height:85vh;
+  object-fit:contain;
+  border-radius:4px;
+  box-shadow:0 0 60px rgba(200,135,10,0.3);
+}
+
+.lightbox-close {
+  position:absolute;
+  top:1.5rem;
+  right:1.5rem;
+  background:none;
+  border:none;
+  color:var(--text-muted);
+  font-size:1.5rem;
+  cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;
+  transition:color 0.2s;
+}
+.lightbox-close:hover { color:var(--cream); }
+
+.lightbox-nav {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  font-size:1rem;
+  cursor:pointer;
+  padding:0.8rem 1rem;
+  border-radius:2px;
+  transition:all 0.2s;
+  font-family:'IBM Plex Mono',monospace;
+}
+.lightbox-nav:hover { color:var(--amber); border-color:var(--amber); }
+.lightbox-prev { left:1.5rem; }
+.lightbox-next { right:1.5rem; }
+
+/* FOOTER */
+.gallery-footer {
+  text-align:center;
+  padding:3rem 2rem;
+  border-top:1px solid var(--border);
+  position:relative;
+  z-index:2;
+}
+.gallery-footer a {
+  font-size:0.65rem;
+  color:var(--text-muted);
+  text-decoration:none;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  transition:color 0.3s;
+}
+.gallery-footer a:hover { color:var(--neon-warm); }
+
+/* SCROLL HINT */
+.scroll-hint {
+  text-align:center;
+  font-size:0.6rem;
+  color:var(--text-muted);
+  letter-spacing:0.2em;
+  padding-bottom:1rem;
+  position:relative;
+  z-index:2;
+  animation:fade-hint 3s ease infinite;
+}
+@keyframes fade-hint { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+@media(max-width:600px) {
+  nav { padding:1rem 1.2rem; }
+  .gallery-track { padding:1.5rem 2rem; gap:1rem; }
+  .ticket-card { width:160px; }
+  .lightbox-nav { display:none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">bm</a>
+  <a href="index.html" class="nav-back">← 回到專輯</a>
+</nav>
+
+<div class="page-header">
+  <div class="page-label">Guest Collection</div>
+  <div class="page-title">票根收藏牆</div>
+  <div class="page-count" id="ticketCount">— 張入場票根</div>
+</div>
+
+<div class="scroll-hint">← 左右滑動瀏覽 →</div>
+
+<div class="gallery-wrap">
+  <div class="gallery-track" id="galleryTrack">
+
+    <!-- =====================================================
+         新增票根方式：
+         複製下面這段，貼在最後一張 ticket-card 後面
+         把 FILE_ID 換成 Google Drive 的檔案 ID
+         把 --tilt 的角度換成 -3deg 到 3deg 之間的隨機數
+         把 No.XXX 換成票根編號
+         ===================================================== -->
+
+    <div class="ticket-card" style="--tilt:-2deg" onclick="openLightbox(0)">
+      <img src="https://drive.google.com/thumbnail?id=1hniyZrgVloqD8TJoSZ_ryMpVSeBNlNXZ&sz=w800" alt="No.001">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:1.5deg" onclick="openLightbox(1)">
+      <img src="https://drive.google.com/thumbnail?id=16zZT2wqBelLyQiVFu-29KZUl27kIgyjl&sz=w800" alt="No.002">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:-1deg" onclick="openLightbox(2)">
+      <img src="https://drive.google.com/thumbnail?id=1Kv-RP1q_GxGfqifAAQOHzFN8Fay6UuZW&sz=w800" alt="No.003">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:2deg" onclick="openLightbox(3)">
+      <img src="https://drive.google.com/thumbnail?id=1-PVNtaEQPFSUoPfj8zFkW0BFPasM4Z2f&sz=w800" alt="No.004">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:-2.5deg" onclick="openLightbox(4)">
+      <img src="https://drive.google.com/thumbnail?id=19dQLSSKUbGt0FWSbq4AKxJ8Gq_PXPsUL&sz=w800" alt="No.005">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:1deg" onclick="openLightbox(5)">
+      <img src="https://drive.google.com/thumbnail?id=1SIVw5Nhj77uKSCxK7kahCs7iyhejfe0J&sz=w800" alt="No.006">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:-1.5deg" onclick="openLightbox(6)">
+      <img src="https://drive.google.com/thumbnail?id=1MIALobZr2NqHUWSH8HbtGd4xHWrz383o&sz=w800" alt="No.007">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:2.5deg" onclick="openLightbox(7)">
+      <img src="https://drive.google.com/thumbnail?id=1DH_FZbnpS60y-RCkA5HwudMz19S36VpA&sz=w800" alt="No.008">
+      <div class="ticket-overlay"></div>
+    </div>
+
+    <div class="ticket-card" style="--tilt:-1deg" onclick="openLightbox(8)">
+      <img src="https://drive.google.com/thumbnail?id=1tJ0lLt64mda0QWW-lACq0Tt96NyNyA2U&sz=w800" alt="No.009">
+      <div class="ticket-overlay"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="gallery-footer">
+  <a href="index.html">← beautiful mess EP</a>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">←</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">→</button>
+</div>
+
+<script>
+const tickets = document.querySelectorAll('.ticket-card img');
+document.getElementById('ticketCount').textContent = tickets.length + ' 張入場票根';
+
+// DRAG SCROLL
+const track = document.getElementById('galleryTrack');
+let isDown = false, startX, scrollLeft;
+track.addEventListener('mousedown', e => { isDown=true; track.classList.add('active'); startX=e.pageX-track.offsetLeft; scrollLeft=track.scrollLeft; });
+track.addEventListener('mouseleave', () => { isDown=false; });
+track.addEventListener('mouseup', () => { isDown=false; });
+track.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); const x=e.pageX-track.offsetLeft; const walk=(x-startX)*1.5; track.scrollLeft=scrollLeft-walk; });
+
+// LIGHTBOX
+let currentIdx = 0;
+const srcs = Array.from(tickets).map(img => img.src);
+
+function openLightbox(idx) {
+  currentIdx = idx;
+  document.getElementById('lightboxImg').src = srcs[idx];
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeLightboxOutside(e) {
+  if(e.target === document.getElementById('lightbox')) closeLightbox();
+}
+
+function navLightbox(dir) {
+  currentIdx = (currentIdx + dir + srcs.length) % srcs.length;
+  document.getElementById('lightboxImg').src = srcs[currentIdx];
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowLeft') navLightbox(-1);
+  if(e.key === 'ArrowRight') navLightbox(1);
+});
+</script>
+</body>
+</html>
