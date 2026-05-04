@@ -208,10 +208,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:50; padding:1.2rem 2.5rem;
 
     <!-- =====================================================
          新增票根方式：
-         複製下面這段，貼在最後一張 ticket-card 後面
-         把 FILE_ID 換成 Google Drive 的檔案 ID
-         把 --tilt 的角度換成 -3deg 到 3deg 之間的隨機數
-         把 No.XXX 換成票根編號
+          --tilt 的角度換成 -3deg 到 3deg 之間的隨機數
          ===================================================== -->
 
     <div class="ticket-card" style="--tilt:-2deg" onclick="openLightbox(0)">
@@ -260,7 +257,12 @@ nav { position:fixed; top:0; left:0; right:0; z-index:50; padding:1.2rem 2.5rem;
     </div>
 
     <div class="ticket-card" style="--tilt:2deg" onclick="openLightbox(9)">
-      <img src="https://drive.google.com/thumbnail?id=1bOTmu2Zan9TdgP9nPCHodOODLw6U4VUp&sz=w800" alt="No.019">
+      <img src="https://drive.google.com/thumbnail?id=1bOTmu2Zan9TdgP9nPCHodOODLw6U4VUp&sz=w800" alt="No.010">
+      <div class="ticket-overlay"></div>
+    </div>
+    
+    <div class="ticket-card" style="--tilt:-2.5deg" onclick="openLightbox(10)">
+      <img src="https://drive.google.com/thumbnail?id=1Vt1zfp6s29_7pCSTRZXEGyYPblxvCo7W&sz=w800" alt="No.011">
       <div class="ticket-overlay"></div>
     </div>
   </div>
