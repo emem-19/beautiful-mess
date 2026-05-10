@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bologna 約會底片 Prompt 產生器</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f2ee;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --text: #1a1a18;
+    --text-muted: #8a8880;
+    --text-faint: #b8b5af;
+    --accent: #c4652a;
+    --teal: #2a9d76;
+    --amber: #d4850f;
+    --purple: #6b52c8;
+    --pink: #c44d7a;
+    --radius: 10px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  header p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .section {
+    margin-bottom: 1.75rem;
+  }
+
+  .sec-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .tag:hover { border-color: var(--text); color: var(--text); }
+
+  .tag.on {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .frame-slots {
+    display: flex;
+    gap: 3px;
+    height: 8px;
+  }
+
+  .slot {
+    flex: 1;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 1.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  button:hover { background: var(--text); color: var(--bg); }
+  button:active { transform: scale(0.97); }
+
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  button.primary:hover { opacity: 0.85; }
+
+  .ok {
+    font-size: 0.75rem;
+    color: var(--teal);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .ok.show { opacity: 1; }
+
+  .output-box {
+    margin-top: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 80px;
+  }
+
+  .hint {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    margin-top: 8px;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    font-family: 'DM Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Bologna 約會底片 — Prompt 產生器</h1>
+    <p>每次抽取一組場景配置，複製後貼給 GPT 使用，同時上傳人物參考圖</p>
+  </header>
+
+  <div class="section">
+    <div class="sec-label">格數</div>
+    <div class="tags" id="frame-count">
+      <span class="tag on" data-val="6">6 格</span>
+      <span class="tag" data-val="7">7 格</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">人物格數（含合照＋自拍）</div>
+    <div class="tags" id="people-count">
+      <span class="tag" data-val="1">1 格</span>
+      <span class="tag on" data-val="2">2 格</span>
+      <span class="tag" data-val="3">3 格</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">底片配置預覽</div>
+    <div class="legend">
+      <span class="leg"><span class="dot" style="background:#2a9d76"></span>場景</span>
+      <span class="leg"><span class="dot" style="background:#d4850f"></span>食物</span>
+      <span class="leg"><span class="dot" style="background:#6b52c8"></span>合照／人物</span>
+      <span class="leg"><span class="dot" style="background:#c44d7a"></span>自拍</span>
+    </div>
+    <div class="frame-slots" id="slots"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="primary" onclick="generate()">↻ 重新抽取</button>
+    <button onclick="copyText()">複製 prompt</button>
+    <span class="ok" id="ok">已複製！</span>
+  </div>
+  <div class="hint">每次抽取會隨機分配場景、食物、人物格的內容與順序</div>
+
+  <div class="output-box" id="output">按「重新抽取」產生 prompt</div>
+
+  <footer>bologna_prompt_generator.html — 離線使用，無需網路</footer>
+
+</div>
+
+<script>
+const scenes = [
+  "Piazza Maggiore, warm terracotta facade under blue sky",
+  "Bologna portico colonnade, long amber arches casting shadows",
+  "Torre degli Asinelli from below, blue sky framing",
+  "Via dell'Indipendenza, busy street with warm stone buildings",
+  "Santo Stefano square, sun on cobblestones",
+  "narrow Bologna alley, warm ochre walls, afternoon light",
+  "Mercato di Mezzo entrance, lively and colourful",
+  "Giardini Margherita, green trees and soft May light"
+];
+
+const foods = [
+  "close-up of tagliatelle al ragù in ceramic bowl",
+  "hand holding crescentina fried bread, warm light",
+  "mortadella on paper at market stall",
+  "espresso cup on marble café counter",
+  "gelato cone, two scoops, sunlit",
+  "fresh pasta at market, close-up texture shot"
+];
+
+const couples = [
+  "couple walking under portico, seen from behind",
+  "two people sitting at outdoor café table, natural light",
+  "standing in front of Piazza Maggiore, candid relaxed pose",
+  "leaning against ochre wall, warm afternoon shadow",
+  "looking at something off-frame together, not facing camera"
+];
+
+const selfies = [
+  "low-angle selfie with Torre degli Asinelli behind",
+  "mirror selfie in café bathroom, slightly blurry",
+  "arm-stretch selfie in front of portico arches",
+  "selfie with gelato, sun flare catching lens"
+];
+
+function pick(arr, n) {
+  const c = [...arr], r = [];
+  for (let i = 0; i < Math.min(n, c.length); i++) {
+    const x = Math.floor(Math.random() * (c.length - i));
+    r.push(c.splice(x, 1)[0]);
+  }
+  return r;
+}
+
+function getVal(id) {
+  return document.querySelector(`#${id} .tag.on`)?.dataset.val;
+}
+
+function buildSlots(plan) {
+  const el = document.getElementById('slots');
+  el.innerHTML = '';
+  const colors = { scene: '#2a9d76', food: '#d4850f', couple: '#6b52c8', selfie: '#c44d7a' };
+  plan.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'slot';
+    d.style.background = colors[t] || '#ccc';
+    el.appendChild(d);
+  });
+}
+
+function generate() {
+  const total = parseInt(getVal('frame-count')) || 6;
+  const peopleN = parseInt(getVal('people-count')) || 2;
+
+  const coupleN = peopleN === 1 ? 1 : peopleN === 2 ? 1 : 2;
+  const selfieN = peopleN === 1 ? 0 : 1;
+  const foodN = 1;
+  const sceneN = total - coupleN - selfieN - foodN;
+
+  const pickedScenes = pick(scenes, sceneN);
+  const pickedFoods = pick(foods, foodN);
+  const pickedCouples = pick(couples, coupleN);
+  const pickedSelfies = selfieN > 0 ? pick(selfies, selfieN) : [];
+
+  const plan = [];
+  const frames = [];
+
+  pickedScenes.forEach(s => { plan.push('scene'); frames.push({ type: 'SCENE', desc: s }); });
+  pickedFoods.forEach(s => { plan.push('food'); frames.push({ type: 'FOOD', desc: s }); });
+  pickedCouples.forEach(s => { plan.push('couple'); frames.push({ type: 'COUPLE', desc: s }); });
+  pickedSelfies.forEach(s => { plan.push('selfie'); frames.push({ type: 'SELFIE', desc: s }); });
+
+  for (let i = frames.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [frames[i], frames[j]] = [frames[j], frames[i]];
+    [plan[i], plan[j]] = [plan[j], plan[i]];
+  }
+
+  buildSlots(plan);
+
+  const header = `Horizontal film contact sheet, ${total} frames side by side, no borders between frames.
+Bologna, Italy — sunny May afternoon. Bright, saturated, warm.
+Shot on 35mm film, slightly overexposed, natural grain, vivid colours.
+Warm terracotta + deep blue sky palette throughout.
+
+FRAMES (left to right):`;
+
+  const body = frames.map((f, i) => `  ${i + 1}. [${f.type}] ${f.desc}`).join('\n');
+
+  const footer = `
+PEOPLE (appear only in COUPLE and SELFIE frames, never posing directly):
+  Him: pink hair low ponytail, light linen shirt, casual trousers — refer to uploaded reference
+  Her: grey-brown bob with soft bangs, floral sundress, thin cardigan — refer to uploaded reference
+
+Keep each frame naturally composed, unposed, candid travel photography feel.`;
+
+  document.getElementById('output').textContent = header + '\n' + body + footer;
+}
+
+function copyText() {
+  const t = document.getElementById('output').textContent;
+  if (t.startsWith('按')) return;
+  navigator.clipboard.writeText(t).then(() => {
+    const el = document.getElementById('ok');
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2000);
+  });
+}
+
+document.querySelectorAll('.tags').forEach(g => {
+  g.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      g.querySelectorAll('.tag').forEach(t => t.classList.remove('on'));
+      tag.classList.add('on');
+    });
+  });
+});
+
+generate();
+</script>
+</body>
+</html>
