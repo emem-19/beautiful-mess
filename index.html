@@ -67,11 +67,8 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .track-genre { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; white-space:nowrap; }
 .track-toggle { font-size:0.75rem; color:var(--border); transition:transform 0.3s,color 0.3s; }
 .track-item.open .track-toggle { transform:rotate(180deg); color:var(--amber); }
-
-/* 修正：max-height 改大，確保播放器和按鈕不被截掉 */
 .track-expand { max-height:0; overflow:hidden; transition:max-height 0.5s ease; }
 .track-item.open .track-expand { max-height:400px; }
-
 .track-story { font-size:0.82rem; color:var(--text-muted); line-height:1.7; font-style:italic; padding:0.8rem 0 0.5rem 3rem; }
 .lyrics-btn { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber); background:transparent; border:1px solid #3a2010; padding:0.3rem 0.8rem; border-radius:2px; cursor:pointer; margin-left:3rem; margin-bottom:0.5rem; transition:all 0.2s; }
 .lyrics-btn:hover { background:#1a1008; border-color:var(--amber); }
@@ -132,6 +129,30 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .copy-btn-outside:hover { color:var(--amber); border-color:var(--amber); }
 .copy-btn-outside.copied { color:#4a8a4a; border-color:#2a5a2a; }
 
+/* BOLOGNA GENERATOR */
+.bolo-gen { margin-top:0; }
+.bolo-row { display:flex; flex-wrap:wrap; gap:1.5rem; margin-bottom:1.2rem; }
+.bolo-field { display:flex; flex-direction:column; gap:6px; flex:1; min-width:180px; }
+.bolo-field label { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); }
+.bolo-field input { background:#060402; border:1px solid #2a1e0e; border-radius:2px; padding:0.5rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--cream); outline:none; transition:border-color 0.2s; width:100%; }
+.bolo-field input::placeholder { color:#4a3a28; }
+.bolo-field input:focus { border-color:var(--amber); }
+.bolo-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1rem; }
+.bolo-tag { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; padding:3px 10px; border-radius:999px; border:1px solid #2a1e0e; color:var(--text-muted); background:transparent; cursor:pointer; transition:all 0.15s; user-select:none; }
+.bolo-tag:hover { border-color:var(--text-muted); color:var(--cream); }
+.bolo-tag.on { background:var(--amber); border-color:var(--amber); color:var(--dark); }
+.bolo-tag-label { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; margin-top:0.8rem; }
+.bolo-slots { display:flex; gap:3px; height:5px; margin-bottom:1.2rem; }
+.bolo-slot { flex:1; border-radius:2px; background:#2a1e0e; transition:background 0.2s; }
+.bolo-btn-row { display:flex; gap:8px; align-items:center; margin-bottom:1rem; flex-wrap:wrap; }
+.bolo-btn { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.35rem 1rem; border-radius:2px; border:1px solid #2a1e0e; background:transparent; color:var(--text-muted); cursor:pointer; transition:all 0.2s; }
+.bolo-btn:hover { color:var(--amber); border-color:var(--amber); }
+.bolo-btn.primary { background:var(--amber); border-color:var(--amber); color:var(--dark); }
+.bolo-btn.primary:hover { background:var(--neon-warm); border-color:var(--neon-warm); }
+.bolo-btn.copied { color:#4a8a4a; border-color:#2a5a2a; }
+.bolo-hint { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:#4a3a28; margin-bottom:0.8rem; }
+.bolo-output { background:#060402; border:1px solid #1a1208; border-radius:2px; padding:1.2rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#8a7a5a; line-height:1.85; white-space:pre-wrap; word-break:break-word; min-height:60px; }
+
 /* VENUE */
 .venue-inner { background:var(--tomato); padding:4rem 3rem; position:relative; overflow:hidden; }
 .venue-inner::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(0,0,0,0.04) 20px,rgba(0,0,0,0.04) 21px); }
@@ -151,7 +172,7 @@ footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border
 .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease,transform 0.7s ease; }
 .reveal.visible { opacity:1; transform:translateY(0); }
 
-.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; z-index:60; }  
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; z-index:60; }
 @media(max-width:600px) {
   nav { padding:1rem 1.2rem; }
   .nav-links { display:none; }
@@ -164,12 +185,10 @@ footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border
 .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(4px,4px); }
 .hamburger.open span:nth-child(2) { opacity:0; }
 .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4px,-4px); }
-
 .mobile-menu { position:fixed; inset:0; background:rgba(14,10,4,0.97); z-index:55; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; opacity:0; pointer-events:none; transition:opacity 0.3s; }
 .mobile-menu.open { opacity:1; pointer-events:all; }
 .mobile-menu a { font-family:'IBM Plex Mono',monospace; font-size:1.2rem; letter-spacing:0.2em; color:var(--text-muted); text-decoration:none; text-transform:uppercase; transition:color 0.3s; }
 .mobile-menu a:hover { color:var(--neon-warm); }
-
 </style>
 </head>
 <body>
@@ -214,10 +233,10 @@ footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border
     <div class="hero-title">beautiful mess</div>
     <div class="hero-sub">8-track EP · Chi Fiore exclusive · 2026</div>
   </div>
-<div class="hero-cta">
-  <a href="#tracks" class="btn btn-primary">試聽 ▶</a>
-  <a href="#prompts" class="btn btn-ghost">參與活動</a>
-</div>
+  <div class="hero-cta">
+    <a href="#tracks" class="btn btn-primary">試聽 ▶</a>
+    <a href="#prompts" class="btn btn-ghost">參與活動</a>
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -268,7 +287,7 @@ footer { padding:3rem 2rem; text-align:center; border-top:1px solid var(--border
         <div class="track-story">兩個人在城市裡吵架的歌。節奏推著走，停不下來。最喜歡「I love you in the traffic, I love you in the rain」是整張EP最安靜的一句話。</div>
         <div class="track-player"><div class="player-inner"><button class="play-btn" onclick="togglePlay(this,'02.mp3')"><svg class="icon-play" viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg><svg class="icon-pause" viewBox="0 0 10 10" style="display:none"><rect x="2" y="1" width="2.5" height="8"/><rect x="5.5" y="1" width="2.5" height="8"/></svg></button><div class="player-progress"><div class="progress-bar" onclick="seekAudio(event,this)"><div class="progress-fill"></div></div><div class="player-times"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div></div></div>
         <button class="lyrics-btn" onclick="openLyrics(1)">歌詞 lyrics</button>
-       <a href="https://suno.com/s/gMn0oHRVAVymEX8B" target="_blank" class="suno-link">↗ suno</a>
+        <a href="https://suno.com/s/gMn0oHRVAVymEX8B" target="_blank" class="suno-link">↗ suno</a>
       </div>
     </div>
 
@@ -430,9 +449,59 @@ LEFT SIDE: in cool-toned portrait photo of [PERSON單人/COUPLE雙人(輸入樣�
 
 RIGHT SIDE: "ORIGINAL TICKET" small caps, "No.0000（自填號碼）" right aligned. Title: "beautiful mess EP" in cursive script font. Fields in typewriter font — Release: 2026/05/05 / Venue: Chi Fiore / Cast: [男生名] & [女生名] / Review: [one short poetic line about this relationship, max 6 words, lowercase, no punctuation] / ♥♥♥♥♥ rating row / Barcode at bottom / "THANK YOU FOR LISTENING" small caps. Warm cream background right panel, thin border lines, aged paper texture. Output ratio: 2:3 vertical.</div>
       <button class="copy-btn-outside" onclick="copyPromptOutside('prompt3',this)">copy</button>
-<a href="gallery.html" class="suno-link" style="display:block;margin-top:1rem;color:var(--amber);">謝謝到場的你們 →</a>
+      <a href="gallery.html" class="suno-link" style="display:block;margin-top:1rem;color:var(--amber);">謝謝到場的你們 →</a>
     </div>
+
+    <!-- BOLOGNA FILM GENERATOR -->
+    <div class="prompt-card">
+      <div class="prompt-card-title">🎞 波隆那約會底片 — 隨機場景產生器</div>
+      <div class="prompt-card-desc">每次抽取一組場景配置，填上你們的外貌描述，直接貼給 GPT 使用</div>
+
+      <div class="bolo-gen">
+        <div class="bolo-tag-label">格數</div>
+        <div class="bolo-tags" id="bolo-frames">
+          <span class="bolo-tag on" data-val="6">6 格</span>
+          <span class="bolo-tag" data-val="7">7 格</span>
+        </div>
+
+        <div class="bolo-tag-label">人物格數（合照＋自拍）</div>
+        <div class="bolo-tags" id="bolo-people">
+          <span class="bolo-tag" data-val="1">1 格</span>
+          <span class="bolo-tag on" data-val="2">2 格</span>
+          <span class="bolo-tag" data-val="3">3 格</span>
+        </div>
+
+        <div class="bolo-tag-label">底片配置</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#6a9a7a;">● 場景</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#b8820a;">● 食物</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#7a6ab8;">● 合照</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#b85a7a;">● 自拍</span>
+        </div>
+        <div class="bolo-slots" id="bolo-slots"></div>
+
+        <div class="bolo-row">
+          <div class="bolo-field">
+            <label>他的外貌 Him</label>
+            <input type="text" id="bolo-him" placeholder="e.g. short black hair, white t-shirt">
+          </div>
+          <div class="bolo-field">
+            <label>她的外貌 Her</label>
+            <input type="text" id="bolo-her" placeholder="e.g. brown bob, floral dress">
+          </div>
+        </div>
+
+        <div class="bolo-btn-row">
+          <button class="bolo-btn primary" onclick="boloGenerate()">↻ 重新抽取</button>
+          <button class="bolo-btn" id="bolo-copy-btn" onclick="boloCopy()">copy</button>
+        </div>
+        <div class="bolo-hint">複製後貼給 GPT，同時上傳人物參考圖</div>
+
+        <div class="bolo-output" id="bolo-output">按「重新抽取」產生 prompt</div>
+      </div>
     </div>
+
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -554,11 +623,8 @@ function closeLyrics() {
   document.body.style.overflow = '';
 }
 
-function closeModalOutside(e) {
-  if(e.target === document.getElementById('lyricsModal')) closeLyrics();
-}
-
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeLyrics(); });
+document.getElementById('lyricsModal').addEventListener('click', function(e){ if(e.target===this) closeLyrics(); });
 
 const covers = ['images/cover-c.png','images/cover-a.png','images/cover-b.png'];
 const coverLabels = ['Ver.C · 棚拍主視覺','Ver.A · 純LOGO','Ver.B · 歌舞音樂風'];
@@ -638,7 +704,7 @@ function seekAudio(e, barEl) {
   const pct = Math.min(Math.max((e.clientX-rect.left)/rect.width,0),1);
   btn._audio.currentTime = pct * btn._audio.duration;
 }
- document.getElementById('lyricsModal').addEventListener('click', function(e){ if(e.target===this) closeLyrics(); }); 
+
 function toggleMenu() {
   document.getElementById('hamburger').classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
@@ -649,6 +715,131 @@ function closeMenu() {
   document.getElementById('mobileMenu').classList.remove('open');
   document.body.style.overflow = '';
 }
+
+/* ── BOLOGNA GENERATOR ── */
+const boloScenes = [
+  "Piazza Maggiore, warm terracotta facade under blue sky",
+  "Bologna portico colonnade, long amber arches casting shadows",
+  "Torre degli Asinelli from below, blue sky framing",
+  "Via dell'Indipendenza, busy street with warm stone buildings",
+  "Santo Stefano square, sun on cobblestones",
+  "narrow Bologna alley, warm ochre walls, afternoon light",
+  "Mercato di Mezzo entrance, lively and colourful",
+  "Giardini Margherita, green trees and soft May light"
+];
+const boloFoods = [
+  "close-up of tagliatelle al ragù in ceramic bowl",
+  "hand holding crescentina fried bread, warm light",
+  "mortadella on paper at market stall",
+  "espresso cup on marble café counter",
+  "gelato cone, two scoops, sunlit",
+  "fresh pasta at market, close-up texture shot"
+];
+const boloCouples = [
+  "couple walking under portico, seen from behind",
+  "two people sitting at outdoor café table, natural light",
+  "standing in front of Piazza Maggiore, candid relaxed pose",
+  "leaning against ochre wall, warm afternoon shadow",
+  "looking at something off-frame together, not facing camera"
+];
+const boloSelfies = [
+  "low-angle selfie with Torre degli Asinelli behind",
+  "mirror selfie in café bathroom, slightly blurry",
+  "arm-stretch selfie in front of portico arches",
+  "selfie with gelato, sun flare catching lens"
+];
+
+function boloPick(arr, n) {
+  const c = [...arr], r = [];
+  for(let i=0;i<Math.min(n,c.length);i++){
+    const x=Math.floor(Math.random()*(c.length-i));
+    r.push(c.splice(x,1)[0]);
+  }
+  return r;
+}
+
+function boloGetVal(id) {
+  return document.querySelector('#'+id+' .bolo-tag.on')?.dataset.val;
+}
+
+function boloSlots(plan) {
+  const el = document.getElementById('bolo-slots');
+  el.innerHTML = '';
+  const colors = { scene:'#6a9a7a', food:'#b8820a', couple:'#7a6ab8', selfie:'#b85a7a' };
+  plan.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'bolo-slot';
+    d.style.background = colors[t] || '#2a1e0e';
+    el.appendChild(d);
+  });
+}
+
+function boloGenerate() {
+  const total = parseInt(boloGetVal('bolo-frames')) || 6;
+  const peopleN = parseInt(boloGetVal('bolo-people')) || 2;
+  const coupleN = peopleN === 1 ? 1 : peopleN === 2 ? 1 : 2;
+  const selfieN = peopleN === 1 ? 0 : 1;
+  const foodN = 1;
+  const sceneN = total - coupleN - selfieN - foodN;
+
+  const him = document.getElementById('bolo-him').value.trim() || '[描述他的外貌]';
+  const her = document.getElementById('bolo-her').value.trim() || '[描述她的外貌]';
+
+  const frames = [];
+  const plan = [];
+  boloPick(boloScenes, sceneN).forEach(s => { plan.push('scene'); frames.push({type:'SCENE', desc:s}); });
+  boloPick(boloFoods, foodN).forEach(s => { plan.push('food'); frames.push({type:'FOOD', desc:s}); });
+  boloPick(boloCouples, coupleN).forEach(s => { plan.push('couple'); frames.push({type:'COUPLE', desc:s}); });
+  if(selfieN > 0) boloPick(boloSelfies, selfieN).forEach(s => { plan.push('selfie'); frames.push({type:'SELFIE', desc:s}); });
+
+  for(let i=frames.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [frames[i],frames[j]]=[frames[j],frames[i]];
+    [plan[i],plan[j]]=[plan[j],plan[i]];
+  }
+
+  boloSlots(plan);
+
+  const lines = [
+    `Horizontal film contact sheet, ${total} frames side by side, no borders between frames.`,
+    `Bologna, Italy — sunny May afternoon. Bright, saturated, warm.`,
+    `Shot on 35mm film, slightly overexposed, natural grain, vivid colours.`,
+    `Warm terracotta + deep blue sky palette throughout.`,
+    ``,
+    `FRAMES (left to right):`,
+    ...frames.map((f,i) => `  ${i+1}. [${f.type}] ${f.desc}`),
+    ``,
+    `PEOPLE (appear only in COUPLE and SELFIE frames, never posing directly):`,
+    `  Him: ${him}`,
+    `  Her: ${her}`,
+    ``,
+    `Keep each frame naturally composed, unposed, candid travel photography feel.`
+  ];
+
+  document.getElementById('bolo-output').textContent = lines.join('\n');
+}
+
+function boloCopy() {
+  const text = document.getElementById('bolo-output').textContent;
+  if(text.startsWith('按')) return;
+  const btn = document.getElementById('bolo-copy-btn');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+document.querySelectorAll('.bolo-tags').forEach(g => {
+  g.querySelectorAll('.bolo-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      g.querySelectorAll('.bolo-tag').forEach(t => t.classList.remove('on'));
+      tag.classList.add('on');
+    });
+  });
+});
+
+boloGenerate();
 </script>
 </body>
 </html>
