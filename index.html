@@ -55,7 +55,6 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 #about .concept-text p { margin-bottom:1.2rem; }
 #about .concept-text p:first-child { font-size:1.15rem; color:var(--cream); }
 
-/* TRACKS */
 .track-list { display:flex; flex-direction:column; }
 .track-item { padding:1.2rem 0; border-bottom:1px solid var(--border); }
 .track-main { display:grid; grid-template-columns:2rem 1fr auto; align-items:center; gap:1rem; cursor:pointer; transition:padding 0.2s; }
@@ -75,7 +74,6 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .suno-link { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; color:var(--text-muted); text-decoration:none; margin-left:0.8rem; transition:color 0.2s; }
 .suno-link:hover { color:var(--neon-warm); }
 
-/* AUDIO PLAYER */
 .track-player { margin:0.5rem 0 0.8rem 3rem; }
 .player-inner { background:#060402; border:1px solid #1a1208; border-radius:2px; padding:0.7rem 1rem; display:flex; align-items:center; gap:0.8rem; }
 .play-btn { width:28px; height:28px; border-radius:50%; background:var(--amber); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background 0.2s; }
@@ -89,7 +87,6 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .progress-bar:hover .progress-fill { background:var(--neon-warm); }
 .player-times { display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--text-muted); }
 
-/* LYRICS MODAL */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:200; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; padding:1rem; }
 .modal-overlay.open { opacity:1; pointer-events:all; }
 .modal-box { background:#0e0a04; border:1px solid #3a2a10; border-radius:3px; width:100%; max-width:640px; max-height:85vh; overflow:hidden; display:flex; flex-direction:column; transform:translateY(20px); transition:transform 0.3s; }
@@ -109,7 +106,6 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .lyric-zh { font-size:0.82rem; color:var(--text-muted); line-height:1.6; font-style:italic; }
 @media(max-width:500px) { .lyric-line { grid-template-columns:1fr; gap:0.1rem; } .lyric-zh { margin-bottom:0.6rem; } }
 
-/* TOKUTEN */
 .tokuten-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
 .tokuten-card { background:#0e0a04; padding:2rem 1.5rem; display:flex; flex-direction:column; gap:0.8rem; }
 .tokuten-img { width:100%; aspect-ratio:1; background:#1a1008; display:flex; align-items:center; justify-content:center; margin-bottom:0.5rem; overflow:hidden; }
@@ -117,7 +113,6 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .tokuten-name { font-size:0.85rem; color:var(--cream); }
 .tokuten-desc { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--text-muted); line-height:1.6; }
 
-/* PROMPTS */
 .prompt-cards { display:flex; flex-direction:column; gap:2rem; }
 .prompt-card { background:#0e0a04; border:1px solid var(--border); border-radius:2px; padding:2rem; }
 .prompt-card-title { font-size:1rem; color:var(--cream); margin-bottom:0.3rem; }
@@ -142,6 +137,11 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .bolo-tag:hover { border-color:var(--text-muted); color:var(--cream); }
 .bolo-tag.on { background:var(--amber); border-color:var(--amber); color:var(--dark); }
 .bolo-tag-label { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; margin-top:0.8rem; }
+.bolo-city-row { display:flex; align-items:center; gap:8px; margin-top:8px; margin-bottom:1rem; }
+.bolo-city-input { background:#060402; border:1px solid #2a1e0e; border-radius:2px; padding:0.4rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--cream); outline:none; transition:border-color 0.2s; width:160px; }
+.bolo-city-input::placeholder { color:#4a3a28; }
+.bolo-city-input:focus { border-color:var(--amber); }
+.bolo-city-input:disabled { opacity:0.3; pointer-events:none; }
 .bolo-slots { display:flex; gap:3px; height:5px; margin-bottom:1.2rem; }
 .bolo-slot { flex:1; border-radius:2px; background:#2a1e0e; transition:background 0.2s; }
 .bolo-btn-row { display:flex; gap:8px; align-items:center; margin-bottom:1rem; flex-wrap:wrap; }
@@ -153,7 +153,6 @@ section { padding:5rem 2rem; max-width:960px; margin:0 auto; }
 .bolo-hint { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:#4a3a28; margin-bottom:0.8rem; }
 .bolo-output { background:#060402; border:1px solid #1a1208; border-radius:2px; padding:1.2rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#8a7a5a; line-height:1.85; white-space:pre-wrap; word-break:break-word; min-height:60px; }
 
-/* VENUE */
 .venue-inner { background:var(--tomato); padding:4rem 3rem; position:relative; overflow:hidden; }
 .venue-inner::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(0,0,0,0.04) 20px,rgba(0,0,0,0.04) 21px); }
 .venue-content { position:relative; z-index:1; }
@@ -452,12 +451,12 @@ RIGHT SIDE: "ORIGINAL TICKET" small caps, "No.0000（自填號碼）" right alig
       <a href="gallery.html" class="suno-link" style="display:block;margin-top:1rem;color:var(--amber);">謝謝到場的你們 →</a>
     </div>
 
-    <!-- BOLOGNA FILM GENERATOR -->
+    <!-- FILM GENERATOR -->
     <div class="prompt-card">
-      <div class="prompt-card-title">🎞 波隆那約會底片 — 隨機場景產生器</div>
-      <div class="prompt-card-desc">來到波隆那，請帶走一些回憶：每次抽取一組場景配置，填上你們的外貌描述，直接貼給 GPT 使用</div>
-
+      <div class="prompt-card-title">🎞 約會底片 — 隨機場景產生器</div>
+      <div class="prompt-card-desc">每次抽取一組場景配置，填上你們的外貌描述，直接貼給 GPT 使用</div>
       <div class="bolo-gen">
+
         <div class="bolo-tag-label">格數</div>
         <div class="bolo-tags" id="bolo-frames">
           <span class="bolo-tag on" data-val="6">6 格</span>
@@ -469,6 +468,15 @@ RIGHT SIDE: "ORIGINAL TICKET" small caps, "No.0000（自填號碼）" right alig
           <span class="bolo-tag" data-val="1">1 格</span>
           <span class="bolo-tag on" data-val="2">2 格</span>
           <span class="bolo-tag" data-val="3">3 格</span>
+        </div>
+
+        <div class="bolo-tag-label">城市</div>
+        <div class="bolo-tags" id="bolo-city-mode">
+          <span class="bolo-tag on" data-val="bologna">Bologna（預設）</span>
+          <span class="bolo-tag" data-val="custom">換城市</span>
+        </div>
+        <div class="bolo-city-row">
+          <input class="bolo-city-input" id="bolo-city-input" type="text" placeholder="e.g. Tokyo" disabled>
         </div>
 
         <div class="bolo-tag-label">底片配置</div>
@@ -496,7 +504,6 @@ RIGHT SIDE: "ORIGINAL TICKET" small caps, "No.0000（自填號碼）" right alig
           <button class="bolo-btn" id="bolo-copy-btn" onclick="boloCopy()">copy</button>
         </div>
         <div class="bolo-hint">複製後貼給 GPT，同時上傳人物參考圖</div>
-
         <div class="bolo-output" id="bolo-output">按「重新抽取」產生 prompt</div>
       </div>
     </div>
@@ -716,7 +723,7 @@ function closeMenu() {
   document.body.style.overflow = '';
 }
 
-/* ── BOLOGNA GENERATOR ── */
+/* ── FILM GENERATOR ── */
 const boloScenes = [
   "Piazza Maggiore, warm terracotta facade under blue sky",
   "Bologna portico colonnade, long amber arches casting shadows",
@@ -725,28 +732,65 @@ const boloScenes = [
   "Santo Stefano square, sun on cobblestones",
   "narrow Bologna alley, warm ochre walls, afternoon light",
   "Mercato di Mezzo entrance, lively and colourful",
-  "Giardini Margherita, green trees and soft May light"
+  "Giardini Margherita, green trees and soft May light",
+  "Piazza Minghetti, quiet square with warm stone pavement",
+  "Bologna university district, old brick walls and bicycle shadows",
+  "Porta Saragozza archway, golden afternoon light through the gate",
+  "San Luca hillside path, tree-lined steps in warm summer light",
+  "Bologna rooftop terrace, red tile roofs stretching to the horizon",
+  "osteria doorway with hanging dried herbs and warm amber interior",
+  "Bologna train station plaza, open sky and terracotta rooftops"
 ];
+
 const boloFoods = [
   "close-up of tagliatelle al ragù in ceramic bowl",
   "hand holding crescentina fried bread, warm light",
   "mortadella on paper at market stall",
-  "espresso cup on marble café counter",
+  "espresso and cornetto on marble café counter, morning light",
   "gelato cone, two scoops, sunlit",
-  "fresh pasta at market, close-up texture shot"
+  "fresh pasta at market, close-up texture shot",
+  "fresh focaccia bread at bakery window, golden crust close-up",
+  "pizza slice on paper plate, casual street food shot",
+  "burger and fries on wooden tray at outdoor table",
+  "churros with chocolate dipping sauce, powdered sugar dusting",
+  "mortadella panino wrapped in paper, handheld street food shot"
 ];
+
 const boloCouples = [
   "couple walking under portico, seen from behind",
   "two people sitting at outdoor café table, natural light",
-  "standing in front of Piazza Maggiore, candid relaxed pose",
-  "leaning against ochre wall, warm afternoon shadow",
-  "looking at something off-frame together, not facing camera"
+  "standing in front of a landmark, candid relaxed pose",
+  "leaning against a warm-toned wall, afternoon shadow",
+  "looking at something off-frame together, not facing camera",
+  "couple holding hands crossing a cobblestone intersection, candid street shot",
+  "one leaning against a vintage street lamp, the other standing close",
+  "browsing vinyl records together in a small record shop, warm indoor light",
+  "walking slowly along a canal or lakeside path, seen from behind",
+  "standing in a narrow bookstore aisle, both looking at the same shelf",
+  "sitting on stone steps outside a church, casual and unhurried",
+  "one waiting outside a shop doorway, the other just stepping out"
 ];
+
 const boloSelfies = [
-  "low-angle selfie with Torre degli Asinelli behind",
+  "low-angle selfie with a landmark tower behind",
   "mirror selfie in café bathroom, slightly blurry",
-  "arm-stretch selfie in front of portico arches",
-  "selfie with gelato, sun flare catching lens"
+  "arm-stretch selfie in front of archways",
+  "selfie with gelato, sun flare catching lens",
+  "selfie in front of a vintage shop window reflection, city behind them",
+  "selfie holding gelato up toward camera, sunny street background",
+  "low angle selfie sitting on stone steps, blue sky above",
+  "close-up selfie, she kisses his cheek, both slightly off-center in frame",
+  "goofy selfie, both making silly faces, candid laughing moment"
+];
+
+const genericSceneTemplates = [
+  "{city} street corner, warm afternoon light",
+  "{city} neighbourhood, local architecture and soft shadows",
+  "{city} landmark area, open sky and natural light",
+  "quiet alley in {city}, golden hour glow",
+  "{city} riverside or park, green and airy",
+  "{city} busy shopping street, casual crowd and storefronts",
+  "{city} café terrace, outdoor seating in warm light"
 ];
 
 function boloPick(arr, n) {
@@ -777,6 +821,11 @@ function boloSlots(plan) {
 function boloGenerate() {
   const total = parseInt(boloGetVal('bolo-frames')) || 6;
   const peopleN = parseInt(boloGetVal('bolo-people')) || 2;
+  const cityMode = boloGetVal('bolo-city-mode');
+  const customCity = document.getElementById('bolo-city-input').value.trim();
+  const isCustom = cityMode === 'custom' && customCity.length > 0;
+  const cityName = isCustom ? customCity : 'Bologna, Italy';
+
   const coupleN = peopleN === 1 ? 1 : peopleN === 2 ? 1 : 2;
   const selfieN = peopleN === 1 ? 0 : 1;
   const foodN = 1;
@@ -785,9 +834,17 @@ function boloGenerate() {
   const him = document.getElementById('bolo-him').value.trim() || '[描述他的外貌]';
   const her = document.getElementById('bolo-her').value.trim() || '[描述她的外貌]';
 
+  let pickedScenes;
+  if (isCustom) {
+    const filled = genericSceneTemplates.map(t => t.replace(/{city}/g, customCity));
+    pickedScenes = boloPick(filled, sceneN);
+  } else {
+    pickedScenes = boloPick(boloScenes, sceneN);
+  }
+
   const frames = [];
   const plan = [];
-  boloPick(boloScenes, sceneN).forEach(s => { plan.push('scene'); frames.push({type:'SCENE', desc:s}); });
+  pickedScenes.forEach(s => { plan.push('scene'); frames.push({type:'SCENE', desc:s}); });
   boloPick(boloFoods, foodN).forEach(s => { plan.push('food'); frames.push({type:'FOOD', desc:s}); });
   boloPick(boloCouples, coupleN).forEach(s => { plan.push('couple'); frames.push({type:'COUPLE', desc:s}); });
   if(selfieN > 0) boloPick(boloSelfies, selfieN).forEach(s => { plan.push('selfie'); frames.push({type:'SELFIE', desc:s}); });
@@ -802,9 +859,8 @@ function boloGenerate() {
 
   const lines = [
     `Horizontal film contact sheet, ${total} frames side by side, no borders between frames.`,
-    `Bologna, Italy — sunny May afternoon. Bright, saturated, warm.`,
+    `${cityName} — sunny afternoon. Bright, saturated, warm.`,
     `Shot on 35mm film, slightly overexposed, natural grain, vivid colours.`,
-    `Warm terracotta + deep blue sky palette throughout.`,
     ``,
     `FRAMES (left to right):`,
     ...frames.map((f,i) => `  ${i+1}. [${f.type}] ${f.desc}`),
@@ -835,6 +891,9 @@ document.querySelectorAll('.bolo-tags').forEach(g => {
     tag.addEventListener('click', () => {
       g.querySelectorAll('.bolo-tag').forEach(t => t.classList.remove('on'));
       tag.classList.add('on');
+      if(g.id === 'bolo-city-mode') {
+        document.getElementById('bolo-city-input').disabled = tag.dataset.val !== 'custom';
+      }
     });
   });
 });
